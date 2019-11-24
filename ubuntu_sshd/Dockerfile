@@ -1,6 +1,5 @@
 FROM ubuntu:14.04
 MAINTAINER hejingqi@zj-inv.cn
-RUN apt-get install -y apt-transport-https
 COPY sources.list /etc/apt/sources.list
 RUN apt-get update
 RUN apt-get install -y openssh-server supervisor vim iputils-ping net-tools lrzsz
