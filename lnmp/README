@@ -1,0 +1,15 @@
+# 构建nginx和php镜像
+docker build -t php:v1 .
+docker build -t nginx:v1 .
+# 创建自定义网络
+docker network create lnmp
+# 创建mysql容器
+docker run -d --name lnmp_mysql --network lnmp -v mysql-volume:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=wordpress mysql:5.7 --character-set-server=utf8
+# 创建php容器
+docker run -d --name lnmp_php --network lnmp -v wwwroot:/wwwroot php:v1
+# 创建nginx容器
+docker run -d --name lnmp_nginx --network lnmp -p 80:80 -v wwwroot:/wwwroot -v $PWD/php.conf:/usr/local/nginx/conf/vhost/php.conf nginx:v1
+# 将wordpress压缩包放入根目录
+* 下载：https://cn.wordpress.org/download/releases/
+* 进入根目录解压压缩包：cd /var/lib/docker/volumes/wwwroot/_data/
+# 安装wordpress
