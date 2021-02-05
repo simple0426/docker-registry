@@ -8,8 +8,8 @@ docker run -d --name lnmp_mysql --network lnmp -v mysql-volume:/var/lib/mysql -e
 # 创建php容器
 docker run -d --name lnmp_php --network lnmp -v wwwroot:/wwwroot php:v1
 # 创建nginx容器
-docker run -d --name lnmp_nginx --network lnmp -p 80:80 -v wwwroot:/wwwroot -v $PWD/php.conf:/usr/local/nginx/conf/vhost/php.conf nginx:v1
-# 将wordpress压缩包放入根目录
+docker run -d --name lnmp_nginx --network lnmp -p 80:80 -v wwwroot:/wwwroot -v $PWD/nginx/php.conf:/usr/local/nginx/conf/vhost/php.conf nginx:v1
+# 将wordpress压缩包放入共享目录wwwroot
 * 下载：https://cn.wordpress.org/download/releases/
-* 进入根目录解压压缩包：cd /var/lib/docker/volumes/wwwroot/_data/
+* 进入共享目录解压压缩包：cd /var/lib/docker/volumes/wwwroot/_data/
 # 安装wordpress
