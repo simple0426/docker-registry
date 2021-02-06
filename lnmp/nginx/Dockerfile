@@ -5,7 +5,10 @@ RUN yum install -y gcc gcc-c++ make \
 	iproute net-tools telnet wget curl && \
 	yum clean all && \
 	rm -rf /var/cache/yum/*
-ADD nginx-1.15.5.tar.gz /
+#RUN wget http://nginx.org/download/nginx-1.15.5.tar.gz && \
+#ADD nginx-1.15.5.tar.gz /
+RUN wget http://49.232.17.71:8081/nginx-1.15.5.tar.gz && \
+    tar xzf nginx-1.15.5.tar.gz
 RUN cd nginx-1.15.5 && \
     ./configure --prefix=/usr/local/nginx \
     --with-http_ssl_module \

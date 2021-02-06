@@ -1,0 +1,66 @@
+version: '3'
+services:
+  init: # 在共享目录中下载wordpress：https://cn.wordpress.org/download/releases/
+    image: busybox
+    container_name: lnmp_init
+    networks:
+    - lnmp
+    volumes:
+    - wwwroot:/data/share
+    command:
+    - sh
+    - -c
+    - |
+      cd /data/share 
+      wget -c http://49.232.17.71:8081/wordpress-4.9.4-zh_CN.tar.gz  
+      tar xzf wordpress-4.9.4-zh_CN.tar.gz
+      tail -f /dev/null
+  mysql:
+    image: mysql:5.7
+    container_name: lnmp_mysql
+    networks:
+    - lnmp
+    expose:
+    - "3306"
+    volumes:
+    - mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: wordpress
+  php:
+#    build:
+#      context: ./php
+#      dockerfile: Dockerfile
+    image: php:v1
+    container_name: lnmp_php
+    networks:
+    - lnmp
+    expose:
+    - "9000"
+    volumes:
+    - wwwroot:/wwwroot
+    depends_on:
+    - mysql
+    - init
+  nginx:
+#    build:
+#      context: ./nginx
+#      dockerfile: Dockerfile
+    image: nginx:v1
+    container_name: lnmp_nginx
+    networks:
+    - lnmp
+    ports:
+    - 80:80
+    volumes:
+    - wwwroot:/wwwroot
+    - ./nginx/php.conf:/usr/local/nginx/conf/vhost/php.conf
+    depends_on:
+    - mysql
+    - init
+volumes:
+  wwwroot:
+  mysql-data:
+networks:
+  lnmp:
+    driver: bridge
