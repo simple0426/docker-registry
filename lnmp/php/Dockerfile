@@ -7,9 +7,7 @@ RUN yum install epel-release -y && \
     iproute net-tools telnet wget curl && \
     yum clean all && \
     rm -rf /var/cache/yum/*
-#RUN wget https://www.php.net/distributions/php-5.6.36.tar.gz && \
-#ADD php-5.6.36.tar.gz /
-RUN wget http://49.232.17.71:8081/php-5.6.36.tar.gz && \
+RUN wget https://www.php.net/distributions/php-5.6.36.tar.gz && \
     tar xzf php-5.6.36.tar.gz
 RUN cd php-5.6.36 && \
     ./configure --prefix=/usr/local/php \
