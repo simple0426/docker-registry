@@ -19,6 +19,7 @@ RUN cd nginx-1.15.5 && \
     ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 ENV PATH $PATH:/usr/local/nginx/sbin
 COPY nginx.conf /usr/local/nginx/conf/nginx.conf
+COPY php.conf /usr/local/nginx/conf/
 WORKDIR /usr/local/nginx
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
